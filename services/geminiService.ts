@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { ProblemAnalysis, GeneratedProblem, ExamConfig, StudentLevel, InputFile, WorksheetProblem, WorksheetData } from "../types";
+import { ProblemAnalysis, GeneratedProblem, ExamConfig, StudentLevel, InputFile, WorksheetProblem, WorksheetData } from "../src/types";
 
 const API_KEY_STORAGE = "USER_GEMINI_API_KEY";
 
