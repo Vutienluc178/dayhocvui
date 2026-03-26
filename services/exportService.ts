@@ -2,7 +2,7 @@
 import saveAs from "file-saver";
 import katex from "katex";
 import { asBlob } from "html-docx-js-typescript";
-import { GeneratedProblem, WorksheetProblem, HomeworkProblem } from "../types";
+import { GeneratedProblem, WorksheetProblem, HomeworkProblem } from "../src/types";
 
 // --- CORE UTILS ---
 
