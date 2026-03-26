@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Save, Copy } from 'lucide-react';
-import { GeneratedProblem } from '../types';
+import { GeneratedProblem } from '../src/types';
 import { MathRenderer } from './MathRenderer';
 
 interface SimilarProblemsModalProps {
