@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppStep } from '../types';
+import { AppStep } from '../src/types';
 
 interface ProgressBarProps {
   currentStep: AppStep;
