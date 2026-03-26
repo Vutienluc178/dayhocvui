@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { X, Folder, FolderOpen, ChevronRight, ChevronDown, Plus, Save, HardDrive, Edit } from 'lucide-react';
-import { Folder as FolderType, SavedPresentation, GeneratedProblem } from '../types';
+import { Folder as FolderType, SavedPresentation, GeneratedProblem } from '../src/types';
 import { getFolders, createFolder, savePresentation, getPresentations } from '../services/storageService';
 
 interface SavePresentationModalProps {
