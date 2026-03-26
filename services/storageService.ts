@@ -1,5 +1,5 @@
 
-import { ProblemAnalysis, BankItem, Folder, SavedPresentation, GeneratedProblem } from "../types";
+import { ProblemAnalysis, BankItem, Folder, SavedPresentation, GeneratedProblem } from "../src/types";
 
 const BANK_KEY = "olympic_math_bank_v1";
 const FOLDER_KEY = "olympic_math_folders_v1";
