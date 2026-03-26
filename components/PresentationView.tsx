@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { MathRenderer } from './MathRenderer';
-import { GeneratedProblem } from '../types';
+import { GeneratedProblem } from '../src/types';
 import { DifficultyBadge } from './DifficultyBadge';
 import { WebBoard } from './WebBoard';
 import { LatexToolbar } from './LatexToolbar';
@@ -257,6 +257,7 @@ export const PresentationView: React.FC<PresentationViewProps> = ({
   
   // Tools State
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [showTimeUp, setShowTimeUp] = useState(false);
   const [randomResult, setRandomResult] = useState<number | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [isTimerActive, setIsTimerActive] = useState(false);
@@ -284,6 +285,7 @@ export const PresentationView: React.FC<PresentationViewProps> = ({
   const [showSaveModal, setShowSaveModal] = useState(false);
 
   const timerRef = useRef<any>(null);
+  const timeUpTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const spinIntervalRef = useRef<any>(null);
 
   const currentProblem = problems[currentIndex];
@@ -452,6 +454,21 @@ export const PresentationView: React.FC<PresentationViewProps> = ({
   }, [isTimerActive, timeLeft]);
 
   useEffect(() => {
+    if (timeLeft !== 0) return;
+
+    setShowTimeUp(true);
+    if (timeUpTimeoutRef.current) clearTimeout(timeUpTimeoutRef.current);
+    timeUpTimeoutRef.current = setTimeout(() => {
+      setShowTimeUp(false);
+      setTimeLeft(null);
+    }, 3000);
+
+    return () => {
+      if (timeUpTimeoutRef.current) clearTimeout(timeUpTimeoutRef.current);
+    };
+  }, [timeLeft]);
+
+  useEffect(() => {
     const handleFsChange = () => setIsAppFullScreen(!!document.fullscreenElement);
     document.addEventListener('fullscreenchange', handleFsChange);
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
@@ -618,6 +635,8 @@ export const PresentationView: React.FC<PresentationViewProps> = ({
   const resetTimer = () => {
     setTimeLeft(null);
     setIsTimerActive(false);
+    setShowTimeUp(false);
+    if (timeUpTimeoutRef.current) clearTimeout(timeUpTimeoutRef.current);
   };
 
   const generateRandom = () => {
@@ -1612,7 +1631,7 @@ export const PresentationView: React.FC<PresentationViewProps> = ({
              </div>
            )}
 
-           {timeLeft !== null && timeLeft <= 1 && (
+           {showTimeUp && (
              <div className="px-12 py-6 bg-slate-950/70 backdrop-blur-md border-2 border-yellow-300/30 rounded-3xl shadow-2xl flex items-center justify-center transition-all scale-110 animate-pulse">
                <div className="text-7xl leading-none font-black text-yellow-300 drop-shadow-[0_0_18px_rgba(250,204,21,0.9)] tracking-wider">
                  Hết giờ
@@ -1620,7 +1639,7 @@ export const PresentationView: React.FC<PresentationViewProps> = ({
              </div>
            )}
 
-           {timeLeft !== null && timeLeft > 1 && (
+           {timeLeft !== null && timeLeft > 0 && !showTimeUp && (
              <div className={`px-12 py-4 bg-slate-900/90 backdrop-blur-md border-2 border-white/20 rounded-3xl shadow-2xl flex items-center gap-8 transition-all scale-110 ${timeLeft < 30 ? 'border-red-500/50' : ''}`}>
                <Timer size={40} className={timeLeft < 30 ? 'text-red-500 animate-pulse' : 'text-indigo-400'} />
                <div className={`text-6xl font-mono font-black tabular-nums ${timeLeft < 30 ? 'text-red-500' : 'text-white'}`}>
